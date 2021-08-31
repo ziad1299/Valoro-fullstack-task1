@@ -45,7 +45,21 @@ app.get('/about', (req, res) => {
 app.get('/blogs/create', (req, res) => {
   res.render('create', { title: 'Create a new blog' });
 });
+app.get('/add-blog', (req, res) => {
+  const blog = new Blog({
+    title: 'new blog',
+    snippet: 'about my new blog',
+    body: 'more about my new blog'
+  })
 
+  blog.save()
+    .then(result => {
+      res.send(result);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
   app.get('/blogs', (req, res) => {
     Blog.find().sort({ createdAt: -1 })
       .then(result => {
